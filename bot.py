@@ -42,8 +42,17 @@ def get_live_data():
         print(f"Veri hatasi ayrintisi: {e}")
         return None
 
+# bot.py içindeki bağlantı kısmını şununla değiştir:
 try:
-    client = tweepy.Client(X_API_KEY, X_API_SECRET, X_ACCESS_TOKEN, X_ACCESS_SECRET)
+    # Hem v1.1 hem v2 yetkilerini kapsayan bağlantı
+    auth = tweepy.OAuth1UserHandler(X_API_KEY, X_API_SECRET, X_ACCESS_TOKEN, X_ACCESS_SECRET)
+    api_v1 = tweepy.API(auth)
+    
+    client = tweepy.Client(
+        consumer_key=X_API_KEY, consumer_secret=X_API_SECRET,
+        access_token=X_ACCESS_TOKEN, access_token_secret=X_ACCESS_SECRET
+    )
+    
     v = get_live_data()
     
     if v:
@@ -55,6 +64,7 @@ try:
                  f"⛽ Petrol(1L): {v['petrol']}₺\n\n"
                  f"#Dolar #Altın #Ekonomi")
         
+        # Tweet atma komutu
         client.create_tweet(text=mesaj)
         print("--- TWEET BASARIYLA ATILDI ---")
     else:
