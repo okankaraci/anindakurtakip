@@ -43,22 +43,21 @@ def get_live_data():
         return None
 
 try:
+
     client = tweepy.Client(
         consumer_key=X_API_KEY, 
         consumer_secret=X_API_SECRET,
         access_token=X_ACCESS_TOKEN, 
-        access_token_secret=X_ACCESS_SECRET
-    )
+        access_token_secret=X_ACCESS_SECRET)
     
     v = get_live_data()
     if v:
         su_an = datetime.now().strftime('%H:%M')
-        mesaj = f"📊 TEST ({su_an})\n💵 Dolar: {v['usd']}₺\n💶 Euro: {v['eur']}₺"
+        mesaj = f"📊 SAATLİK VERİ ({su_an})\n\n💵 Dolar: {v['usd']}₺\n💶 Euro: {v['eur']}₺\n🟡 Altın: {v['ga']}₺\n⛽ Petrol: {v['petrol']}₺"
         
-        client.create_tweet(text=mesaj, user_auth=True)
+        client.create_tweet(text=mesaj, user_auth=True) 
         print("--- TWEET BASARIYLA ATILDI ---")
-        
     else:
-        print("Veri hatasi nedeniyle tweet atilamadi.")
+        print("Veri hatası.")
 except Exception as e:
-    print(f"X (Twitter) Hatasi: {e}")
+    print(f"X Hatası: {e}")
