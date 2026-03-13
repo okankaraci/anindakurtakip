@@ -1,0 +1,26 @@
+name: Finans Botu Saatlik Calis
+on:
+  schedule:
+    - cron: '0 * * * *' # Her saat başı çalıştırır
+  workflow_dispatch: # Manuel çalıştırmak için
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Depoyu kopyala
+        uses: actions/checkout@v3
+      - name: Python Kur
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Kutuphaneleri Yukle
+        run: pip install tweepy requests
+      - name: Botu Calistir
+        env:
+          X_API_KEY: ${{ secrets.X_API_KEY }}
+          X_API_SECRET: ${{ secrets.X_API_SECRET }}
+          X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
+          X_ACCESS_SECRET: ${{ secrets.X_ACCESS_SECRET }}
+          COLLECT_API_KEY: ${{ secrets.COLLECT_API_KEY }}
+        run: python bot.py
